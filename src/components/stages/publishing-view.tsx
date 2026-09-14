@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Home, Store, MonitorPlay, Youtube, Instagram } from "lucide-react";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { DateTimePicker } from "@/components/ui/date-time-picker";
 import { useToast } from "@/components/ui/toast";
 import { sendJSON } from "@/lib/client";
 import { cn } from "@/lib/cn";
@@ -167,15 +168,13 @@ export function PublishingView() {
                   className="mt-1 accent-primary"
                 />
                 <span className="flex-1">
-                  <span className="block text-label font-medium text-text">
+                  <span className="mb-2 block text-label font-medium text-text">
                     Schedule for later
                   </span>
-                  <input
-                    type="datetime-local"
+                  <DateTimePicker
                     value={scheduledAt}
-                    onChange={(e) => setScheduledAt(e.target.value)}
+                    onChange={setScheduledAt}
                     disabled={mode !== "later"}
-                    className="mt-2 h-9 w-full rounded-control border border-border bg-surface px-2 text-body text-text disabled:opacity-50"
                   />
                 </span>
               </label>
