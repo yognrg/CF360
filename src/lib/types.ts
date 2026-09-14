@@ -52,6 +52,8 @@ export interface Request {
   stage: Stage;
   priority: Priority;
   status_label: string;
+  /** Display: the format chosen for this request (shown in the pipeline). */
+  format_name: string | null;
   owner_id: string;
   created_at: string;
   updated_at: string;
@@ -66,12 +68,23 @@ export interface Brief {
   source: "auto_filled" | "manual";
 }
 
+export type FormatBadge = "Recommended" | "Popular" | null;
+
 export interface Format {
   id: string;
   name: string;
   aspect_ratio: string; // e.g. 9:16
   duration_range: string;
-  usage_guidelines: Record<string, unknown>;
+  badge: FormatBadge;
+  reference_video_url: string | null;
+  adobe_files: { name: string; type: string; size_bytes: number }[];
+  specs: TemplateSpecs;
+  usage_guidelines: {
+    when_to_use: string;
+    structure: string;
+    best_platforms: string;
+    tone: string;
+  };
   dos: string[];
   donts: string[];
 }
@@ -89,6 +102,9 @@ export interface Template {
   id: string;
   format_id: string;
   name: string;
+  badge: FormatBadge;
+  videos_count: number;
+  duration_range: string;
   specs: TemplateSpecs;
   reference_video_url: string | null;
   adobe_files: { name: string; size_bytes: number; type: string }[];
@@ -151,9 +167,12 @@ export interface LanguageVariant {
   id: string;
   request_id: string;
   language: string;
+  /** Source | Dubbed | Subtitled */
+  localization: string | null;
   status: VariantStatus;
   voiceover_url: string | null;
   duration_seconds: number | null;
+  updated_at: string;
 }
 
 export type PublicationStatus = "scheduled" | "published" | "failed";
@@ -169,6 +188,8 @@ export interface Publication {
 export interface Metric {
   id: string;
   request_id: string;
+  /** "language" rows carry a language in variant_label; "channel" rows a channel. */
+  kind: "language" | "channel";
   variant_label: string;
   platform: string;
   views: number;
@@ -176,6 +197,16 @@ export interface Metric {
   watch_through: number;
   conversions: number;
   captured_at: string;
+}
+
+export interface MonitoringKpi {
+  id: string;
+  request_id: string;
+  label: string;
+  value: string;
+  delta: string;
+  direction: "up" | "down";
+  sub: string;
 }
 
 export interface Database {
@@ -190,4 +221,5 @@ export interface Database {
   language_variants: LanguageVariant[];
   publications: Publication[];
   metrics: Metric[];
+  monitoring_kpis: MonitoringKpi[];
 }
