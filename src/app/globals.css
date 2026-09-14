@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    height: 100%;
+  }
+  body {
+    @apply bg-bg text-text;
+    font-family: var(--font-inter), Inter, system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  * {
+    @apply border-border;
+  }
+}
+
+@layer utilities {
+  /* thin, subtle scrollbars to match the calm design language */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply rounded-pill bg-border;
+  }
+}
