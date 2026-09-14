@@ -2,6 +2,33 @@
 
 Every choice made on your behalf, with the reasoning. Newest first.
 
+## D7 — Publishing has a "Simulate a channel failure" demo toggle
+
+The Publishing screen includes a small checkbox that forces one channel to fail,
+so the required Error toast + Retry flow can be demonstrated on demand. On retry
+it publishes successfully. Without it, every publish would always succeed and the
+error branch would be unreachable in a demo.
+
+## D6 — Stage screens focus on one "active request" (CF-12847)
+
+The Figma walkthrough shows CF-12847 (Gold Loan) on every stage screen. So the
+stage screens (Pre-production → Monitoring) all operate on that active request,
+which is seeded with data in every table. Advancing a stage (Send to Lead Review,
+Approve, Publish, …) really updates the request's `stage` via the API, so the
+pipeline tag and the context bar reflect it. A per-request routing scheme
+(`/requests/[id]/…`) would be the next step for a multi-request production build.
+
+## D5 — Prompt score is the computed weighted sum, not the Figma mock's number
+
+The Figma Storyboarding frame shows "82% · Pass" alongside sub-scores
+(Compliment 92, Brand 85, Hook 80, Template 78, USP 88, Platform 90). Those
+sub-scores, run through the **required** weighting (Compliment 25%, Brand 20%,
+Hook 20%, Template 15%, USP 10%, Platform 10%), actually total ~86%. The mock's
+"82%" is illustrative and inconsistent with its own sub-scores. Per the brief
+("implement exactly" the weighted formula), the app shows the **computed** total,
+so you may see 86% where the mock said 82%. The pass threshold (80%) is identical.
+Editing the prompt and re-validating recomputes the score from the text.
+
 ## D1 — Local-first SQLite/JSON data store instead of cloud Supabase
 
 **Decision:** Use a local, file-backed data store (JSON documents under `.data/`,
