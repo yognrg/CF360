@@ -36,6 +36,8 @@ export function FileUpload({
   uploadUrl = "/api/upload",
   onUploaded,
   hint,
+  /** Skip the server round-trip: size-check locally and go straight to success. */
+  localOnly = false,
   /** Force a state for the component gallery / documentation. */
   demoState,
 }: {
@@ -44,6 +46,7 @@ export function FileUpload({
   uploadUrl?: string;
   onUploaded?: (file: UploadedFile) => void;
   hint?: string;
+  localOnly?: boolean;
   demoState?: { state: UploadState; fileName?: string; message?: string; progress?: number };
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -82,6 +85,22 @@ export function FileUpload({
       setState("uploading");
       setProgress(0);
 
+      // Local-only mode: no server upload (used where the file is parsed
+      // client-side, e.g. the bulk brief sheet). Simulate a brief progress.
+      if (localOnly) {
+        let p = 0;
+        const t = setInterval(() => {
+          p = Math.min(100, p + 25);
+          setProgress(p);
+          if (p >= 100) {
+            clearInterval(t);
+            setState("success");
+            onUploaded?.({ url: "", name: file.name, size: file.size });
+          }
+        }, 80);
+        return;
+      }
+
       const form = new FormData();
       form.append("file", file);
       const xhr = new XMLHttpRequest();
@@ -115,7 +134,7 @@ export function FileUpload({
       };
       xhr.send(form);
     },
-    [maxBytes, onUploaded, uploadUrl],
+    [maxBytes, onUploaded, uploadUrl, localOnly],
   );
 
   const onPick = (e: React.ChangeEvent<HTMLInputElement>) => {
