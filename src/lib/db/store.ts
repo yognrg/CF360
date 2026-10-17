@@ -7,14 +7,30 @@
  * Server-only. Never import from a client component.
  */
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import type { Database } from "@/lib/types";
 import { buildSeed } from "./seed";
 
-const DATA_DIR = path.resolve(
-  process.cwd(),
-  process.env.CF360_DATA_DIR || ".data",
-);
+/**
+ * Pick a writable data directory.
+ * - Explicit CF360_DATA_DIR always wins.
+ * - On serverless hosts (Vercel/AWS Lambda) the project filesystem is
+ *   READ-ONLY, so fall back to the OS temp dir. Data lives for the life of a
+ *   warm instance and re-seeds on a cold start — fine for a live demo. For
+ *   durable, shared persistence, swap the store to Postgres (see SETUP_TODO.md).
+ * - Otherwise use a local `.data` folder next to the project.
+ */
+function resolveDataDir(): string {
+  if (process.env.CF360_DATA_DIR) {
+    return path.resolve(process.cwd(), process.env.CF360_DATA_DIR);
+  }
+  const isServerless = !!(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+  if (isServerless) return path.join(os.tmpdir(), "cf360-data");
+  return path.resolve(process.cwd(), ".data");
+}
+
+const DATA_DIR = resolveDataDir();
 const DB_FILE = path.join(DATA_DIR, "db.json");
 
 function ensureDir() {

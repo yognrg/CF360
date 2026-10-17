@@ -31,10 +31,17 @@ deploy (serverless disks are read-only). To switch to Supabase:
 4. Reimplement `src/lib/db/store.ts` against `@supabase/supabase-js`
    (the repository interface stays the same — screens/APIs don't change).
 
-## Optional — deploy to Vercel
+## Deploy to Vercel
 
 1. Push this repo to GitHub.
-2. Import it at https://vercel.com/new.
-3. Add the same env vars from `.env.local` in the Vercel project settings.
-4. Deploy. (Use the Supabase swap above first, or writes won't persist between
-   requests on Vercel.)
+2. Import it at https://vercel.com/new (Vercel auto-detects Next.js — no config).
+3. (Optional) Add env vars from `.env.example` in the Vercel project settings.
+   None are required; all have working defaults.
+4. Deploy.
+
+**How data behaves on Vercel:** the app detects the read-only serverless
+filesystem and keeps its JSON store in the OS temp dir. It seeds on first hit,
+so every screen shows data. Writes (raise a request, validate, publish, …)
+persist for the life of a *warm* instance and reset on a cold start or across
+instances. That's great for a live portfolio demo. For durable, shared
+persistence across all visitors, do the Supabase swap above.
