@@ -90,7 +90,7 @@ export default function BriefPage() {
             <ReadOnlyField label="Tone" value={ai.tone} />
             <ReadOnlyField
               label="Top Performer"
-              value={<span className="font-medium text-success">{ai.top_performer}</span>}
+              value={<span className="font-medium text-success-ink">{ai.top_performer}</span>}
             />
           </div>
         </Card>

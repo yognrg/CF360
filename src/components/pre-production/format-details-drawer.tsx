@@ -30,10 +30,16 @@ export function FormatDetailsDrawer({
   format,
   open,
   onClose,
+  onUse,
+  chosen = false,
 }: {
   format: Format | null;
   open: boolean;
   onClose: () => void;
+  /** Save this format as the request's format. */
+  onUse: (format: Format) => void;
+  /** This format is already the request's format. */
+  chosen?: boolean;
 }) {
   return (
     <Drawer
@@ -44,7 +50,9 @@ export function FormatDetailsDrawer({
       subtitle={format?.name}
       footer={
         <div className="flex justify-end">
-          <Button onClick={onClose}>Use this format</Button>
+          <Button onClick={() => format && onUse(format)} disabled={!format || chosen}>
+            {chosen ? "Selected format" : "Use this format"}
+          </Button>
         </div>
       }
     >

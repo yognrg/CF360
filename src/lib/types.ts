@@ -54,6 +54,10 @@ export interface Request {
   status_label: string;
   /** Display: the format chosen for this request (shown in the pipeline). */
   format_name: string | null;
+  /** The template picked in pre-production (a Template id). */
+  template_id?: string | null;
+  /** The lead reviewer's last comment (saved on Approve / Request Changes). */
+  review_note?: string | null;
   owner_id: string;
   created_at: string;
   updated_at: string;

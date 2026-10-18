@@ -1,5 +1,6 @@
 "use client";
 
+import { colors } from "@/tokens";
 import {
   BarChart,
   Bar,
@@ -49,7 +50,7 @@ export function MonitoringView({
               <span
                 className={cn(
                   "inline-flex items-center gap-0.5 font-medium",
-                  k.direction === "up" ? "text-success" : "text-danger",
+                  k.direction === "up" ? "text-success-ink" : "text-danger-ink",
                 )}
               >
                 {k.direction === "up" ? (
@@ -75,7 +76,7 @@ export function MonitoringView({
                 <CartesianGrid strokeDasharray="3 3" stroke="#EEF0F2" vertical={false} />
                 <XAxis
                   dataKey="name"
-                  tick={{ fontSize: 11, fill: "#6B7280" }}
+                  tick={{ fontSize: 11, fill: colors["text-faint"] }}
                   tickLine={false}
                   axisLine={{ stroke: "#E5E7EB" }}
                   interval={0}
@@ -84,7 +85,7 @@ export function MonitoringView({
                   height={50}
                 />
                 <YAxis
-                  tick={{ fontSize: 11, fill: "#9CA3AF" }}
+                  tick={{ fontSize: 11, fill: colors["text-faint"] }}
                   tickLine={false}
                   axisLine={false}
                   tickFormatter={(v) => fmtCompact(Number(v))}

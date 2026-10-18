@@ -1,19 +1,47 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Check, FileText, Download } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Tag } from "@/components/ui/tag";
 import { Drawer } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { StepActions } from "@/components/pre-production/step-actions";
+import { useToast } from "@/components/ui/toast";
+import { sendJSON } from "@/lib/client";
 import { cn } from "@/lib/cn";
 import { fmtBytes } from "@/lib/format";
 import type { Template } from "@/lib/types";
 
-export function TemplateSelection({ templates }: { templates: Template[] }) {
-  const [selectedId, setSelectedId] = useState<string>(templates[0]?.id ?? "");
+export function TemplateSelection({
+  templates,
+  chosenId,
+}: {
+  templates: Template[];
+  chosenId: string | null;
+}) {
+  const router = useRouter();
+  const { toast } = useToast();
+  // Until one is saved, the first (recommended) template is shown as the default.
+  const [selectedId, setSelectedId] = useState<string>(chosenId ?? templates[0]?.id ?? "");
   const [details, setDetails] = useState<Template | null>(null);
+
+  const choose = async (id: string) => {
+    const before = selectedId;
+    setSelectedId(id);
+    try {
+      await sendJSON("/api/requests", "PATCH", { template_id: id });
+      router.refresh();
+    } catch (e) {
+      setSelectedId(before);
+      toast({
+        variant: "error",
+        title: "Could not save the template",
+        description: e instanceof Error ? e.message : undefined,
+      });
+    }
+  };
 
   return (
     <div>
@@ -33,7 +61,7 @@ export function TemplateSelection({ templates }: { templates: Template[] }) {
           return (
             <Card
               key={t.id}
-              onClick={() => setSelectedId(t.id)}
+              onClick={() => choose(t.id)}
               className={cn(
                 "flex cursor-pointer flex-col p-4 transition-colors",
                 active ? "border-primary ring-1 ring-primary" : "hover:border-primary/40",
@@ -125,7 +153,7 @@ export function TemplateSelection({ templates }: { templates: Template[] }) {
               </div>
             )}
             <Button onClick={() => {
-              setSelectedId(details.id);
+              choose(details.id);
               setDetails(null);
             }}>
               Use this template

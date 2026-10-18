@@ -10,8 +10,8 @@ export const colors = {
   "primary-soft": "#EFF4FF",
 
   text: "#111827",
-  "text-sub": "#6B7280",
-  "text-faint": "#9CA3AF",
+  "text-sub": "#4B5563", // 7.6:1 on white
+  "text-faint": "#6B7280", // 4.8:1 on white, the lightest allowed for text
 
   border: "#E5E7EB",
   line: "#EEF0F2",
@@ -19,12 +19,17 @@ export const colors = {
   bg: "#F9FAFB",
   surface: "#FFFFFF",
 
+  // Status colours: the base is for fills, icons and borders; the -ink shade
+  // is for text on the -soft tint (the base fails 4.5:1 there).
   success: "#10B981",
   "success-soft": "#E7F7F0",
+  "success-ink": "#047857",
   warning: "#F59E0B",
   "warning-soft": "#FEF6E7",
+  "warning-ink": "#B45309",
   danger: "#EF4444",
   "danger-soft": "#FDECEC",
+  "danger-ink": "#B91C1C",
 } as const;
 
 /** Type scale — Inter, even sizes, line-heights on the 8px grid. */

@@ -27,8 +27,12 @@ const ICONS: Record<NavItem["icon"], LucideIcon> = {
 
 export function SideNav({ items }: { items: NavItem[] }) {
   const pathname = usePathname();
+  // Wide screens: a fixed side column. Narrow screens: a scrolling strip above the content.
   return (
-    <nav className="flex w-sidenav shrink-0 flex-col gap-1 border-r border-border bg-surface p-4">
+    <nav
+      aria-label="Main"
+      className="flex shrink-0 gap-1 overflow-x-auto border-b border-border bg-surface p-2 lg:w-sidenav lg:flex-col lg:overflow-visible lg:border-b-0 lg:border-r lg:p-4"
+    >
       {items.map((item) => {
         const Icon = ICONS[item.icon];
         // section-active: match the first path segment
@@ -39,7 +43,7 @@ export function SideNav({ items }: { items: NavItem[] }) {
             key={item.href}
             href={item.href}
             className={cn(
-              "flex items-center gap-3 rounded-control px-3 py-2 text-label transition-colors",
+              "flex shrink-0 items-center gap-3 whitespace-nowrap rounded-control px-3 py-2 text-label transition-colors",
               active
                 ? "bg-primary-soft font-medium text-primary"
                 : "text-text-sub hover:bg-bg hover:text-text",

@@ -194,6 +194,7 @@ export function ProductionView() {
           Back
         </Button>
         <AdvanceButton
+          disabled={rendering}
           to="lead_review"
           href="/lead-review"
           toastTitle="Sent to Lead Review"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Home, Store, MonitorPlay, Youtube, Instagram } from "lucide-react";
 import { Card, CardHeader } from "@/components/ui/card";
@@ -18,12 +18,13 @@ const CHANNELS = [
   { id: "Instagram Reels", label: "Instagram Reels", sub: "@bajajfinserv", icon: Instagram },
 ];
 
-function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void }) {
+function Toggle({ on, onChange, label }: { on: boolean; onChange: (v: boolean) => void; label: string }) {
   return (
     <button
       type="button"
       role="switch"
       aria-checked={on}
+      aria-label={label}
       onClick={() => onChange(!on)}
       className={cn(
         "relative h-6 w-10 shrink-0 rounded-pill transition-colors",
@@ -47,17 +48,37 @@ export function PublishingView() {
     Object.fromEntries(CHANNELS.map((c) => [c.id, true])),
   );
   const [mode, setMode] = useState<"now" | "later">("now");
-  const [scheduledAt, setScheduledAt] = useState("2026-04-18T09:00");
+  const [scheduledAt, setScheduledAt] = useState("");
   const [simulateFailure, setSimulateFailure] = useState(false);
   const [busy, setBusy] = useState(false);
 
   const chosen = () => CHANNELS.filter((c) => selected[c.id]).map((c) => c.id);
 
-  const doPublish = async (force = false) => {
-    const destinations = chosen();
+  // default the schedule to tomorrow 09:00 in the visitor's own time zone
+  useEffect(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 1);
+    const pad = (n: number) => String(n).padStart(2, "0");
+    setScheduledAt(`${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T09:00`);
+  }, []);
+
+  /** Publish the selected channels, or just `only` when retrying. */
+  const doPublish = async (only?: string[]) => {
+    const destinations = only ?? chosen();
     if (destinations.length === 0) {
       toast({ variant: "warning", title: "Select at least one channel" });
       return;
+    }
+    if (mode === "later") {
+      const when = new Date(scheduledAt);
+      if (!scheduledAt || Number.isNaN(when.getTime())) {
+        toast({ variant: "warning", title: "Pick a date and time" });
+        return;
+      }
+      if (when.getTime() <= Date.now()) {
+        toast({ variant: "warning", title: "Pick a time in the future" });
+        return;
+      }
     }
     setBusy(true);
     try {
@@ -67,7 +88,7 @@ export function PublishingView() {
         {
           destinations,
           scheduled_at: mode === "later" ? new Date(scheduledAt).toISOString() : null,
-          failDestination: !force && simulateFailure ? destinations[0] : null,
+          failDestination: !only && simulateFailure ? destinations[0] : null,
         },
       );
 
@@ -77,7 +98,11 @@ export function PublishingView() {
           title: "Some channels failed",
           description: `${result.failed.map((f) => f.destination).join(", ")} did not publish.`,
           duration: 0,
-          action: { label: "Retry", onClick: () => doPublish(true) },
+          // retry only what failed, so channels that already published are not published twice
+          action: {
+            label: "Retry",
+            onClick: () => doPublish(result.failed.map((f) => f.destination)),
+          },
         });
       } else if (mode === "later") {
         toast({
@@ -89,7 +114,7 @@ export function PublishingView() {
         toast({
           variant: "success",
           title: "Published successfully",
-          description: `Live across ${destinations.length} channels.`,
+          description: `Live across ${chosen().length} channels.`,
         });
         router.push("/monitoring");
         router.refresh();
@@ -99,7 +124,7 @@ export function PublishingView() {
         variant: "error",
         title: "Publish failed",
         description: e instanceof Error ? e.message : undefined,
-        action: { label: "Retry", onClick: () => doPublish(true) },
+        action: { label: "Retry", onClick: () => doPublish(destinations) },
         duration: 0,
       });
     } finally {
@@ -133,6 +158,7 @@ export function PublishingView() {
                     <span className="block text-caption text-text-faint">{c.sub}</span>
                   </span>
                   <Toggle
+                    label={`Publish to ${c.label}`}
                     on={selected[c.id]}
                     onChange={(v) => setSelected((s) => ({ ...s, [c.id]: v }))}
                   />

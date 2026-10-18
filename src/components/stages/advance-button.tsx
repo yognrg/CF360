@@ -15,6 +15,8 @@ export function AdvanceButton({
   toastDescription,
   variant,
   onDone,
+  body,
+  disabled,
 }: {
   to: Stage;
   href?: string;
@@ -23,6 +25,9 @@ export function AdvanceButton({
   toastDescription?: string;
   variant?: ButtonProps["variant"];
   onDone?: () => void;
+  /** Extra fields sent with the advance call (e.g. a reviewer comment). */
+  body?: Record<string, unknown>;
+  disabled?: boolean;
 }) {
   const router = useRouter();
   const { toast } = useToast();
@@ -31,7 +36,7 @@ export function AdvanceButton({
   const go = async () => {
     setBusy(true);
     try {
-      await sendJSON("/api/requests/advance", "POST", { to });
+      await sendJSON("/api/requests/advance", "POST", { to, ...body });
       toast({ variant: "success", title: toastTitle, description: toastDescription });
       onDone?.();
       if (href) router.push(href);
@@ -48,7 +53,7 @@ export function AdvanceButton({
   };
 
   return (
-    <Button onClick={go} loading={busy} variant={variant}>
+    <Button onClick={go} loading={busy} variant={variant} disabled={disabled}>
       {children}
     </Button>
   );

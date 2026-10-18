@@ -19,7 +19,12 @@ export function PreProdStepper() {
       <p className="mb-3 text-caption font-medium tracking-wide text-text-faint">
         {PROGRESS_LABEL}
       </p>
-      <Stepper steps={PRE_PRODUCTION_STEPS} current={current} />
+      {/* the five steps need ~560px, so on a phone the bar scrolls sideways */}
+      <div className="overflow-x-auto">
+        <div className="min-w-[560px]">
+          <Stepper steps={PRE_PRODUCTION_STEPS} current={current} />
+        </div>
+      </div>
     </div>
   );
 }

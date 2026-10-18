@@ -105,7 +105,7 @@ export function StoryboardPrompts({
                   <span
                     className={cn(
                       "text-display font-bold",
-                      passed ? "text-success" : "text-warning",
+                      passed ? "text-success-ink" : "text-warning-ink",
                     )}
                   >
                     {prompt.total_score}%

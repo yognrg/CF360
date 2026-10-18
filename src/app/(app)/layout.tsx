@@ -14,7 +14,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen flex-col overflow-hidden">
       <TopBar currentUser={user} users={users} />
-      <div className="flex min-h-0 flex-1">
+      <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
         <SideNav items={items} />
         <main className="scrollbar-thin min-w-0 flex-1 overflow-y-auto bg-bg">
           {children}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
 import { cn } from "@/lib/cn";
 
@@ -21,6 +21,13 @@ export function Drawer({
   children: React.ReactNode;
   footer?: React.ReactNode;
 }) {
+  const root = useRef<HTMLDivElement>(null);
+
+  // a closed drawer stays in the DOM for its slide-out, so keep it out of the tab order
+  useEffect(() => {
+    if (root.current) root.current.inert = !open;
+  }, [open]);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -30,6 +37,7 @@ export function Drawer({
 
   return (
     <div
+      ref={root}
       className={cn(
         "fixed inset-0 z-50",
         open ? "pointer-events-auto" : "pointer-events-none",

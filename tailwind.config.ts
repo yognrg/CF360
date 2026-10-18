@@ -10,14 +10,14 @@ const config: Config = {
     extend: {
       colors: {
         primary: { DEFAULT: "#2563EB", soft: "#EFF4FF" },
-        text: { DEFAULT: "#111827", sub: "#6B7280", faint: "#9CA3AF" },
+        text: { DEFAULT: "#111827", sub: "#4B5563", faint: "#6B7280" },
         border: { DEFAULT: "#E5E7EB" },
         line: "#EEF0F2",
         bg: "#F9FAFB",
         surface: "#FFFFFF",
-        success: { DEFAULT: "#10B981", soft: "#E7F7F0" },
-        warning: { DEFAULT: "#F59E0B", soft: "#FEF6E7" },
-        danger: { DEFAULT: "#EF4444", soft: "#FDECEC" },
+        success: { DEFAULT: "#10B981", soft: "#E7F7F0", ink: "#047857" },
+        warning: { DEFAULT: "#F59E0B", soft: "#FEF6E7", ink: "#B45309" },
+        danger: { DEFAULT: "#EF4444", soft: "#FDECEC", ink: "#B91C1C" },
       },
       fontFamily: {
         sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],

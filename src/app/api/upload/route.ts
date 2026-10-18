@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from "node:fs";
 import path from "node:path";
 import { requireCapability } from "@/lib/auth";
+import { SERVERLESS, UPLOAD_DIR } from "@/lib/uploads";
 import { AuthError } from "@/lib/auth";
 
 const MAX_BYTES = Number(process.env.CF360_MAX_UPLOAD_BYTES || 10 * 1024 * 1024);
-const UPLOAD_DIR = path.resolve(process.cwd(), "public", "uploads");
+
 
 function safeName(name: string) {
   const base = name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-80);
@@ -37,7 +38,7 @@ export async function POST(req: NextRequest) {
     fs.writeFileSync(path.join(UPLOAD_DIR, name), buffer);
 
     return NextResponse.json({
-      url: `/uploads/${name}`,
+      url: SERVERLESS ? `/api/upload/${name}` : `/uploads/${name}`,
       name: file.name,
       size: file.size,
     });

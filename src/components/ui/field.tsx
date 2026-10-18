@@ -56,7 +56,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           />
         </div>
         {error ? (
-          <p className="mt-1 text-caption text-danger">{error}</p>
+          <p className="mt-1 text-caption text-danger-ink">{error}</p>
         ) : hint ? (
           <p className="mt-1 text-caption text-text-faint">{hint}</p>
         ) : null}

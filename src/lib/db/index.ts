@@ -127,6 +127,20 @@ export function setStage(id: string, stage: Stage): Request | undefined {
   });
 }
 
+/** Save the choices made along the pipeline (format, template, review note). */
+export function updateRequest(
+  id: string,
+  patch: Partial<Pick<Request, "format_name" | "template_id" | "review_note">>,
+): Request | undefined {
+  return mutate((db) => {
+    const req = db.requests.find((r) => r.id === id);
+    if (!req) return undefined;
+    Object.assign(req, patch);
+    req.updated_at = new Date().toISOString();
+    return req;
+  });
+}
+
 // ── Briefs ───────────────────────────────────────────────────────────────────
 export function getBrief(requestId: string): Brief | undefined {
   return readDb().briefs.find((b) => b.request_id === requestId);

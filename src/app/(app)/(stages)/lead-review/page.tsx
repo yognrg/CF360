@@ -12,7 +12,7 @@ export default function LeadReviewPage() {
         statusLabel="Awaiting approval"
         statusTone="warning"
       />
-      <LeadReviewView prompt={prompt} />
+      <LeadReviewView prompt={prompt} reviewNote={request.review_note ?? null} />
     </Page>
   );
 }

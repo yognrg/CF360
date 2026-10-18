@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Drawer } from "@/components/ui/drawer";
 import { Tag, VARIANT_STATUS_TONE } from "@/components/ui/tag";
 import { useToast } from "@/components/ui/toast";
 import { AdvanceButton } from "@/components/stages/advance-button";
@@ -28,6 +29,7 @@ export function VernacularView({
   const { toast } = useToast();
   const [variants, setVariants] = useState(initialVariants);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [previewing, setPreviewing] = useState<LanguageVariant | null>(null);
 
   const localized = variants.filter((v) => v.status !== "queued").length;
 
@@ -104,9 +106,7 @@ export function VernacularView({
                       <span className="text-caption text-text-faint">Master</span>
                     ) : v.status === "ready" ? (
                       <button
-                        onClick={() =>
-                          toast({ variant: "info", title: `Preview ${v.language}` })
-                        }
+                        onClick={() => setPreviewing(v)}
                         className="text-label font-medium text-primary hover:underline"
                       >
                         Preview
@@ -115,7 +115,7 @@ export function VernacularView({
                       <button
                         onClick={() => act(v, "cancel")}
                         disabled={busyId === v.id}
-                        className="text-label font-medium text-danger hover:underline disabled:opacity-50"
+                        className="text-label font-medium text-danger-ink hover:underline disabled:opacity-50"
                       >
                         Cancel
                       </button>
@@ -145,6 +145,28 @@ export function VernacularView({
           Send to Publishing
         </AdvanceButton>
       </div>
+      <Drawer
+        open={previewing !== null}
+        onClose={() => setPreviewing(null)}
+        width={420}
+        title="Preview"
+        subtitle={previewing?.language}
+      >
+        <video
+          key={previewing?.id}
+          controls
+          playsInline
+          preload="metadata"
+          className="aspect-[9/16] w-full rounded-control bg-text object-contain"
+        >
+          <source src="/media/gold-loan-offer-reel.webm" type="video/webm" />
+          <source src="/media/gold-loan-offer-reel.mp4" type="video/mp4" />
+        </video>
+        <p className="mt-3 text-caption text-text-sub">
+          Placeholder reel. The dubbed {previewing?.language} version replaces it when the
+          dub is rendered.
+        </p>
+      </Drawer>
     </div>
   );
 }

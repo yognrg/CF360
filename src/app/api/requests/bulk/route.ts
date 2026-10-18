@@ -12,7 +12,7 @@ const Row = z.object({
   priority: z.enum(["high", "medium", "low"]).optional(),
 });
 
-const Schema = z.object({ rows: z.array(Row).min(1) });
+const Schema = z.object({ rows: z.array(Row).min(1).max(200, "At most 200 rows at a time") });
 
 export async function POST(req: NextRequest) {
   return handle(async () => {

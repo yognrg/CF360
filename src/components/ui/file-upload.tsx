@@ -22,6 +22,8 @@ export interface UploadedFile {
   url: string;
   name: string;
   size: number;
+  /** The chosen file itself (local-only mode, where it is read in the browser). */
+  file?: File;
 }
 
 function fmtSize(bytes: number) {
@@ -95,7 +97,7 @@ export function FileUpload({
           if (p >= 100) {
             clearInterval(t);
             setState("success");
-            onUploaded?.({ url: "", name: file.name, size: file.size });
+            onUploaded?.({ url: "", name: file.name, size: file.size, file });
           }
         }, 80);
         return;
@@ -235,7 +237,7 @@ export function FileUpload({
       <AlertCircle className="h-5 w-5 shrink-0 text-danger" />
       <div className="min-w-0 flex-1">
         <p className="truncate text-label text-text">{fileName || "Upload failed"}</p>
-        <p className="text-caption text-danger">{message}</p>
+        <p className="text-caption text-danger-ink">{message}</p>
       </div>
       {!isDemo && (
         <Button size="sm" variant="secondary" onClick={reset}>
