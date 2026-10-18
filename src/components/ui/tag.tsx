@@ -4,9 +4,9 @@ import type { Priority, Stage, VariantStatus } from "@/lib/types";
 export type TagTone = "success" | "warning" | "danger" | "blue" | "gray";
 
 const TONES: Record<TagTone, string> = {
-  success: "bg-success-soft text-success",
-  warning: "bg-warning-soft text-warning",
-  danger: "bg-danger-soft text-danger",
+  success: "bg-success-soft text-success-ink",
+  warning: "bg-warning-soft text-warning-ink",
+  danger: "bg-danger-soft text-danger-ink",
   blue: "bg-primary-soft text-primary",
   gray: "bg-bg text-text-sub border border-border",
 };
