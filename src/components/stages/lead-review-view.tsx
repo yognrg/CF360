@@ -31,10 +31,10 @@ export function LeadReviewView({ prompt }: { prompt: Prompt | null }) {
         <Tag tone="warning">Awaiting approval</Tag>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_400px]">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[360px_1fr]">
         {/* Video */}
         <Card className="p-4">
-          <div className="relative flex aspect-[9/16] max-h-[520px] items-center justify-center overflow-hidden rounded-control bg-gradient-to-b from-text to-text-sub">
+          <div className="relative flex aspect-[9/16] items-center justify-center overflow-hidden rounded-control bg-gradient-to-b from-text to-text-sub">
             <button className="flex h-14 w-14 items-center justify-center rounded-pill bg-white/90 text-text shadow-toast">
               <Play className="ml-0.5 h-6 w-6" />
             </button>
