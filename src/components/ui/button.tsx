@@ -12,7 +12,8 @@ const VARIANTS: Record<ButtonVariant, string> = {
     "bg-surface text-text border border-border hover:bg-bg disabled:opacity-50",
   ghost: "bg-transparent text-text-sub hover:bg-bg disabled:opacity-50",
   soft: "bg-primary-soft text-primary hover:bg-primary-soft/70 disabled:opacity-50",
-  danger: "bg-danger text-white hover:bg-danger/90 disabled:bg-danger/40",
+  // the -ink shade, because white on the base red is only 3.8:1
+  danger: "bg-danger-ink text-white hover:bg-danger-ink/90 disabled:bg-danger-ink/40",
 };
 
 const SIZES: Record<ButtonSize, string> = {
