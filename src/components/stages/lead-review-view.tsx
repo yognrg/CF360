@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Check } from "lucide-react";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,7 @@ import { Tag } from "@/components/ui/tag";
 import { Textarea } from "@/components/ui/field";
 import { useToast } from "@/components/ui/toast";
 import { AdvanceButton } from "@/components/stages/advance-button";
+import { sendJSON } from "@/lib/client";
 import { SCORE_WEIGHTS } from "@/lib/scoring";
 import type { Prompt } from "@/lib/types";
 
@@ -20,6 +22,8 @@ const CHECKS = [
 
 export function LeadReviewView({ prompt }: { prompt: Prompt | null }) {
   const { toast } = useToast();
+  const router = useRouter();
+  const [busy, setBusy] = useState(false);
   const [comment, setComment] = useState(
     "Looks good. Approving for vernacular localization.",
   );
@@ -95,13 +99,27 @@ export function LeadReviewView({ prompt }: { prompt: Prompt | null }) {
           <div className="flex items-center justify-end gap-2">
             <Button
               variant="secondary"
-              onClick={() =>
-                toast({
-                  variant: "warning",
-                  title: "Changes requested",
-                  description: "Sent back to production with your comment.",
-                })
-              }
+              loading={busy}
+              onClick={async () => {
+                setBusy(true);
+                try {
+                  await sendJSON("/api/requests/advance", "POST", { to: "production" });
+                  toast({
+                    variant: "warning",
+                    title: "Changes requested",
+                    description: "Sent back to production.",
+                  });
+                  router.refresh();
+                } catch (e) {
+                  toast({
+                    variant: "error",
+                    title: "Action failed",
+                    description: e instanceof Error ? e.message : undefined,
+                  });
+                } finally {
+                  setBusy(false);
+                }
+              }}
             >
               Request Changes
             </Button>
