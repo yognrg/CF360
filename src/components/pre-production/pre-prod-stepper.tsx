@@ -19,9 +19,9 @@ export function PreProdStepper() {
       <p className="mb-3 text-caption font-medium tracking-wide text-text-faint">
         {PROGRESS_LABEL}
       </p>
-      {/* the six steps need ~640px, so on a phone the bar scrolls sideways */}
-      <div className="overflow-x-auto">
-        <div className="min-w-[640px]">
+      {/* the six steps need ~680px, so on a phone the bar scrolls sideways. The padding keeps the active ring from being clipped by the scroll box. */}
+      <div className="overflow-x-auto py-0.5">
+        <div className="min-w-[680px]">
           <Stepper steps={PRE_PRODUCTION_STEPS} current={current} />
         </div>
       </div>

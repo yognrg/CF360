@@ -50,7 +50,7 @@ export function Stepper({
             {i < steps.length - 1 && (
               <div
                 className={cn(
-                  "mx-3 h-px flex-1",
+                  "mx-3 h-px min-w-2 flex-1",
                   done ? "bg-primary" : "bg-border",
                 )}
               />
