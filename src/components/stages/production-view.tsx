@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Check, Loader2, Play, RefreshCw, Film, ImageIcon } from "lucide-react";
+import { Check, Loader2, RefreshCw, Film, ImageIcon } from "lucide-react";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tag } from "@/components/ui/tag";
@@ -66,9 +66,15 @@ export function ProductionView() {
                 <span className="text-caption">{progress}%</span>
               </div>
             ) : (
-              <button className="flex h-14 w-14 items-center justify-center rounded-pill bg-white/90 text-text shadow-toast">
-                <Play className="ml-0.5 h-6 w-6" />
-              </button>
+              <video
+                controls
+                playsInline
+                preload="metadata"
+                className="h-full w-full object-contain"
+              >
+                <source src="/media/gold-loan-offer-reel.webm" type="video/webm" />
+                <source src="/media/gold-loan-offer-reel.mp4" type="video/mp4" />
+              </video>
             )}
             <span className="absolute bottom-3 left-3 rounded-pill bg-black/50 px-2 py-1 text-caption text-white">
               00:15 · Hindi

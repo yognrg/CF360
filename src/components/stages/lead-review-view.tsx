@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Play, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tag } from "@/components/ui/tag";
@@ -34,14 +34,16 @@ export function LeadReviewView({ prompt }: { prompt: Prompt | null }) {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_400px]">
         {/* Video */}
         <Card className="p-4">
-          <div className="relative flex aspect-[9/16] max-h-[520px] items-center justify-center overflow-hidden rounded-control bg-gradient-to-b from-text to-text-sub">
-            <button className="flex h-14 w-14 items-center justify-center rounded-pill bg-white/90 text-text shadow-toast">
-              <Play className="ml-0.5 h-6 w-6" />
-            </button>
-            <span className="absolute bottom-3 left-3 rounded-pill bg-black/50 px-2 py-1 text-caption text-white">
-              0:00 / 0:15
-            </span>
-          </div>
+          <video
+            controls
+            playsInline
+            preload="metadata"
+            className="mx-auto aspect-[9/16] max-h-[520px] rounded-control bg-text object-contain"
+          >
+            <source src="/media/gold-loan-offer-reel.webm" type="video/webm" />
+            <source src="/media/gold-loan-offer-reel.mp4" type="video/mp4" />
+          </video>
+          <p className="mt-3 text-caption text-text-sub">Gold Loan offer reel · 0:15 · placeholder</p>
         </Card>
 
         {/* Review panel */}
