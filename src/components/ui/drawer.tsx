@@ -58,8 +58,9 @@ export function Drawer({
         aria-modal="true"
         style={{ width }}
         className={cn(
-          "absolute right-0 top-0 flex h-full max-w-[92vw] flex-col bg-surface shadow-drawer transition-transform duration-200",
-          open ? "translate-x-0" : "translate-x-full",
+          "absolute right-0 top-0 flex h-full max-w-[92vw] flex-col bg-surface transition-transform duration-200",
+          // a closed drawer waits just off screen, so its shadow would leak in as a grey band down the right edge
+          open ? "translate-x-0 shadow-drawer" : "translate-x-full",
         )}
       >
         <div className="flex items-start justify-between gap-4 border-b border-line px-6 py-4">
