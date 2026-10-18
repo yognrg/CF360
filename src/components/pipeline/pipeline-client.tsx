@@ -91,6 +91,7 @@ export function PipelineClient({
       </div>
 
       <Card className="overflow-hidden">
+        <div className="overflow-x-auto">
         <table className="w-full border-collapse text-left">
           <thead>
             <tr className="border-b border-line">
@@ -142,6 +143,7 @@ export function PipelineClient({
             )}
           </tbody>
         </table>
+        </div>
       </Card>
 
       <ChooseWorkflowDrawer

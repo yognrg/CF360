@@ -49,7 +49,7 @@ export default function BriefPage() {
             title="Product Information"
             badge={<Tag tone="blue">Auto-filled</Tag>}
           />
-          <div className="grid grid-cols-2 gap-4 p-6">
+          <div className="grid grid-cols-1 gap-4 p-6 sm:grid-cols-2">
             <ReadOnlyField label="Product" value={product.product} />
             <ReadOnlyField label="Category" value={product.category} />
             <ReadOnlyField
