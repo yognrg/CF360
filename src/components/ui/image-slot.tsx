@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ImageIcon } from "lucide-react";
 import { cn } from "@/lib/cn";
 
@@ -22,6 +22,16 @@ export function ImageSlot({
 }) {
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
+  const img = useRef<HTMLImageElement>(null);
+
+  // a server-rendered image can finish (or fail) before React attaches onLoad,
+  // so check where it already stands once mounted
+  useEffect(() => {
+    const el = img.current;
+    if (!el || !el.complete) return;
+    if (el.naturalWidth > 0) setLoaded(true);
+    else setFailed(true);
+  }, [src]);
 
   return (
     <div className={cn("relative overflow-hidden rounded-control bg-bg", className)}>
@@ -37,6 +47,7 @@ export function ImageSlot({
       {!failed && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
+          ref={img}
           src={src}
           alt={alt}
           loading="lazy"
