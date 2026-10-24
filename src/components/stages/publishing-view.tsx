@@ -213,7 +213,7 @@ export function PublishingView() {
                 type="checkbox"
                 checked={simulateFailure}
                 onChange={(e) => setSimulateFailure(e.target.checked)}
-                className="accent-danger"
+                className="h-4 w-4 accent-primary"
               />
               <span className="text-caption text-text-sub">
                 Simulate a channel failure (demo the error toast)
