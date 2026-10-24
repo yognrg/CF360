@@ -308,9 +308,10 @@ function Highlights({
     <ul className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3" aria-label="Highlights">
       {items.map(({ icon: Icon, label, value, note }) => (
         <li key={label}>
-          <Card className="flex h-full items-start gap-3 p-4">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-control bg-primary-soft text-primary">
-              <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
+          <Card className="flex h-full items-center gap-4 p-4">
+            {/* the badge spans the full height of the three text lines */}
+            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-card bg-primary-soft text-primary">
+              <Icon className="h-7 w-7" strokeWidth={1.75} aria-hidden="true" />
             </span>
             <div className="min-w-0">
               <p className="text-caption text-text-faint">{label}</p>
