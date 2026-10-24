@@ -1,6 +1,8 @@
 "use client";
 
 import { Film, FileText, Check, X, Download } from "lucide-react";
+import { ImageSlot } from "@/components/ui/image-slot";
+import { referencePoster } from "@/lib/media";
 import { Drawer } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { fmtBytes } from "@/lib/format";
@@ -70,12 +72,18 @@ export function FormatDetailsDrawer({
 
           {format.reference_video_url && (
             <Section label="REFERENCE VIDEO">
-              <div className="flex items-center gap-3 rounded-control border border-border bg-bg px-3 py-2">
-                <Film className="h-5 w-5 text-text-faint" />
-                <span className="min-w-0 flex-1 truncate text-body text-text">
-                  {format.reference_video_url}
+              <div className="flex items-center gap-3 rounded-control border border-border bg-bg p-2">
+                <ImageSlot
+                  src={referencePoster(format.name)}
+                  alt={`${format.name} reference video`}
+                  label="9:16"
+                  className="aspect-[9/16] w-16 shrink-0 bg-surface"
+                />
+                <span className="flex min-w-0 flex-1 items-center gap-2">
+                  <Film className="h-4 w-4 shrink-0 text-text-faint" />
+                  <span className="truncate text-body text-text">{format.reference_video_url}</span>
                 </span>
-                <Download className="h-4 w-4 text-text-faint" />
+                <Download className="mr-1 h-4 w-4 shrink-0 text-text-faint" />
               </div>
             </Section>
           )}

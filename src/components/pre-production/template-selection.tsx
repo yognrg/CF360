@@ -11,6 +11,8 @@ import { StepActions } from "@/components/pre-production/step-actions";
 import { useToast } from "@/components/ui/toast";
 import { sendJSON } from "@/lib/client";
 import { cn } from "@/lib/cn";
+import { ImageSlot } from "@/components/ui/image-slot";
+import { formatCover } from "@/lib/media";
 import { fmtBytes } from "@/lib/format";
 import type { Template } from "@/lib/types";
 
@@ -67,6 +69,12 @@ export function TemplateSelection({
                 active ? "border-primary ring-1 ring-primary" : "hover:border-primary/40",
               )}
             >
+              <ImageSlot
+                src={formatCover(t.name)}
+                alt={`${t.name} template cover`}
+                label="Cover · 16:9"
+                className="mb-4 aspect-video w-full"
+              />
               <div className="flex items-start justify-between">
                 <h3 className="text-label font-semibold text-text">{t.name}</h3>
                 {active ? (

@@ -10,6 +10,8 @@ import { StepActions } from "@/components/pre-production/step-actions";
 import { FormatDetailsDrawer } from "./format-details-drawer";
 import { sendJSON } from "@/lib/client";
 import { cn } from "@/lib/cn";
+import { ImageSlot } from "@/components/ui/image-slot";
+import { formatCover } from "@/lib/media";
 import type { Format } from "@/lib/types";
 
 export function FormatSelection({
@@ -66,6 +68,12 @@ export function FormatSelection({
               f.name === chosen && "border-primary ring-1 ring-primary",
             )}
           >
+            <ImageSlot
+              src={formatCover(f.name)}
+              alt={`${f.name} format cover`}
+              label="Cover · 16:9"
+              className="mb-4 aspect-video w-full"
+            />
             <div className="flex items-start justify-between">
               <h3 className="text-label font-semibold text-text">{f.name}</h3>
               {f.name === chosen ? (

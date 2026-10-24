@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Sparkles, ShieldCheck } from "lucide-react";
 import { Card, CardHeader } from "@/components/ui/card";
+import { ImageSlot } from "@/components/ui/image-slot";
+import { beatStill, STORYBOARD_BEATS } from "@/lib/media";
 import { Button } from "@/components/ui/button";
 import { Tag } from "@/components/ui/tag";
 import { Textarea } from "@/components/ui/field";
@@ -91,6 +93,17 @@ export function StoryboardPrompts({
                   Version {prompt.version}
                 </span>
               )}
+            </div>
+            <div className="mt-auto border-t border-line pt-4">
+              <p className="mb-2 text-caption font-medium text-text-faint">Storyboard frames</p>
+              <div className="grid max-w-[340px] grid-cols-4 gap-2">
+                {STORYBOARD_BEATS.map((beat) => (
+                  <figure key={beat}>
+                    <ImageSlot src={beatStill(beat)} alt={`${beat} frame`} className="aspect-[9/16] w-full" />
+                    <figcaption className="mt-1 text-center text-caption text-text-sub">{beat}</figcaption>
+                  </figure>
+                ))}
+              </div>
             </div>
           </div>
         </Card>

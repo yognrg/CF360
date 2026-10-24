@@ -1,5 +1,7 @@
 "use client";
 
+import { ImageSlot } from "@/components/ui/image-slot";
+import { beatStill } from "@/lib/media";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Sparkles, RefreshCw } from "lucide-react";
@@ -109,15 +111,22 @@ export function ScriptGeneration({ initialScript }: { initialScript: Script }) {
                     {b.beat}
                   </td>
                   <td className="px-6 py-3 text-body text-text">
-                    {editing ? (
-                      <input
-                        value={b.visual}
-                        onChange={(e) => setCell(i, "visual", e.target.value)}
-                        className="w-full rounded-control border border-border bg-surface px-2 py-1 text-body focus:border-primary focus:outline-none"
+                    <div className="flex items-start gap-3">
+                      <ImageSlot
+                        src={beatStill(b.beat)}
+                        alt={`${b.beat} frame`}
+                        className="aspect-[9/16] w-10 shrink-0"
                       />
-                    ) : (
-                      b.visual
-                    )}
+                      {editing ? (
+                        <input
+                          value={b.visual}
+                          onChange={(e) => setCell(i, "visual", e.target.value)}
+                          className="w-full rounded-control border border-border bg-surface px-2 py-1 text-body focus:border-primary focus:outline-none"
+                        />
+                      ) : (
+                        <span className="pt-0.5">{b.visual}</span>
+                      )}
+                    </div>
                   </td>
                   <td className="px-6 py-3 text-body text-text-sub">
                     {editing ? (
