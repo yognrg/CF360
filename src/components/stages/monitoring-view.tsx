@@ -14,7 +14,14 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import { ArrowDownRight, ArrowUpRight, Lightbulb } from "lucide-react";
+import {
+  ArrowDownRight,
+  ArrowUpRight,
+  Megaphone,
+  MousePointerClick,
+  TrendingDown,
+  TrendingUp,
+} from "lucide-react";
 import { chartBlues, colors } from "@/tokens";
 import { Card, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/cn";
@@ -274,27 +281,46 @@ function Highlights({
   const byCtr = [...languages].sort((a, b) => b.ctr - a.ctr);
   const best = byCtr[0];
   const worst = byCtr[byCtr.length - 1];
+  const viewsUp = stats.views.delta >= 0;
   const items = [
-    topCh && `${topCh.variant_label} brings ${Math.round((topCh.views / totalCh) * 100)}% of all views.`,
-    best && worst && `${best.variant_label} has the best click-through at ${best.ctr}%, ${worst.variant_label} the lowest at ${worst.ctr}%.`,
-    `Views are ${stats.views.delta >= 0 ? "up" : "down"} ${Math.abs(stats.views.delta).toFixed(1)}% and watch time ${stats.watch.delta >= 0 ? "up" : "down"} ${Math.abs(stats.watch.delta).toFixed(1)}% against the previous ${range} days.`,
-  ].filter(Boolean) as string[];
+    topCh && {
+      icon: Megaphone,
+      label: "Top channel",
+      value: `${Math.round((topCh.views / totalCh) * 100)}% of views`,
+      note: `${topCh.variant_label} leads`,
+    },
+    best &&
+      worst && {
+        icon: MousePointerClick,
+        label: "Best click-through",
+        value: `${best.ctr}% in ${best.variant_label}`,
+        note: `${worst.variant_label} lowest at ${worst.ctr}%`,
+      },
+    {
+      icon: viewsUp ? TrendingUp : TrendingDown,
+      label: `Views vs previous ${range} days`,
+      value: formatDelta("views", stats.views.delta),
+      note: `Watch time ${formatDelta("watch", stats.watch.delta)}`,
+    },
+  ].filter(Boolean) as { icon: typeof Megaphone; label: string; value: string; note: string }[];
 
   return (
-    <Card className="mt-4 px-6 py-4">
-      <div className="flex items-start gap-3">
-        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-pill bg-primary-soft text-primary">
-          <Lightbulb className="h-3.5 w-3.5" aria-hidden="true" />
-        </span>
-        <ul className="grid flex-1 grid-cols-1 gap-x-6 gap-y-2 md:grid-cols-3">
-          {items.map((t) => (
-            <li key={t} className="text-body-relaxed text-text-sub">
-              {t}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </Card>
+    <ul className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3" aria-label="Highlights">
+      {items.map(({ icon: Icon, label, value, note }) => (
+        <li key={label}>
+          <Card className="flex h-full items-start gap-3 p-4">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-control bg-primary-soft text-primary">
+              <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-caption text-text-faint">{label}</p>
+              <p className="mt-1 text-heading tabular-nums text-text">{value}</p>
+              <p className="mt-0.5 text-caption text-text-sub">{note}</p>
+            </div>
+          </Card>
+        </li>
+      ))}
+    </ul>
   );
 }
 
