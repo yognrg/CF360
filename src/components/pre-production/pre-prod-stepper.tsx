@@ -1,30 +1,30 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Stepper, PRE_PRODUCTION_STEPS, PROGRESS_LABEL } from "@/components/ui/stepper";
+import { Stepper, PRE_PRODUCTION_STEPS } from "@/components/ui/stepper";
 
-const STEP_BY_PATH: Record<string, number> = {
-  "/pre-production/brief": 0,
-  "/pre-production/format": 1,
-  "/pre-production/template": 2,
-  "/pre-production/storyboard": 3,
-  "/pre-production/script": 4,
-};
+const STEP_PATHS = [
+  "/pre-production/brief",
+  "/pre-production/format",
+  "/pre-production/template",
+  "/pre-production/storyboard",
+  "/pre-production/script",
+  // Generate is the hand-off to Production, started from the Script step
+  undefined,
+] as const;
 
 export function PreProdStepper() {
   const pathname = usePathname();
-  const current = STEP_BY_PATH[pathname] ?? 0;
+  const found = STEP_PATHS.indexOf(pathname as (typeof STEP_PATHS)[number]);
+  const current = found < 0 ? 0 : found;
   return (
-    <div className="mt-6 rounded-card border border-border bg-surface px-6 py-4 shadow-card">
-      <p className="mb-3 text-caption font-medium tracking-wide text-text-faint">
-        {PROGRESS_LABEL}
-      </p>
-      {/* the six steps need ~680px, so on a phone the bar scrolls sideways. The padding keeps the active ring from being clipped by the scroll box. */}
-      <div className="overflow-x-auto py-0.5">
-        <div className="min-w-[680px]">
-          <Stepper steps={PRE_PRODUCTION_STEPS} current={current} />
-        </div>
-      </div>
+    <div className="mb-6 rounded-card border border-border bg-surface px-6 py-4 shadow-card">
+      <Stepper
+        steps={PRE_PRODUCTION_STEPS}
+        current={current}
+        hrefs={STEP_PATHS}
+        label="Pre-production progress"
+      />
     </div>
   );
 }

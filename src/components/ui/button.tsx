@@ -21,6 +21,14 @@ const SIZES: Record<ButtonSize, string> = {
   sm: "h-8 px-3 text-label",
 };
 
+const BASE =
+  "inline-flex items-center justify-center gap-2 rounded-control font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 disabled:cursor-not-allowed";
+
+/** Button styles for a link that should look like a button (a <button> inside an <a> is invalid). */
+export function buttonClass(variant: ButtonVariant = "primary", size: ButtonSize = "default") {
+  return cn(BASE, VARIANTS[variant], SIZES[size]);
+}
+
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
@@ -37,7 +45,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ref={ref}
       disabled={disabled || loading}
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-control font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 disabled:cursor-not-allowed",
+        BASE,
         VARIANTS[variant],
         SIZES[size],
         className,

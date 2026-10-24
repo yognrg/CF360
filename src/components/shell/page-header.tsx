@@ -42,7 +42,7 @@ export function RequestContextBar({
       <Meta label="CF" value={request.cf_id} />
       <Meta label="VID" value={request.vid_id} />
       <Meta label="Product" value={request.product} />
-      <div className="ml-auto flex items-center gap-3">
+      <div className="flex items-center gap-3 sm:ml-auto">
         <Tag tone={statusTone}>{statusLabel ?? request.status_label}</Tag>
         <span className="text-caption text-text-faint">Stage:</span>
         <Tag tone={STAGE_TONE[request.stage as Stage]}>

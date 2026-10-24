@@ -32,6 +32,12 @@ export const colors = {
   "danger-ink": "#B91C1C",
 } as const;
 
+/**
+ * One-hue scale for charts, darkest first. Ranked data reads by length and
+ * position, so colour only separates parts of a whole (the language donut).
+ */
+export const chartBlues = ["#2563EB", "#4F83EE", "#7FA4F2", "#A9C2F6", "#C9D8FA"] as const;
+
 /** Type scale — Inter, even sizes, line-heights on the 8px grid. */
 export const typography = {
   display: { size: 24, lineHeight: 32, weight: 700 },

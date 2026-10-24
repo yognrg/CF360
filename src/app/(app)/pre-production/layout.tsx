@@ -17,8 +17,9 @@ export default function PreProductionLayout({
   return (
     <Page>
       <RequestContextBar request={request} statusLabel="In Progress" statusTone="blue" />
-      {children}
+      {/* progress sits above the step, so you see where you are before you start */}
       <PreProdStepper />
+      {children}
     </Page>
   );
 }

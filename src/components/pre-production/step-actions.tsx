@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button, buttonClass } from "@/components/ui/button";
 
 /** Back / Continue bar used at the foot of each pre-production step. */
 export function StepActions({
@@ -21,10 +21,8 @@ export function StepActions({
 }) {
   return (
     <div className="mt-6 flex items-center justify-between">
-      <Link href={backHref}>
-        <Button variant="secondary" type="button">
-          {backLabel}
-        </Button>
+      <Link href={backHref} className={buttonClass("secondary")}>
+        {backLabel}
       </Link>
       {nextHref &&
         (nextDisabled ? (
@@ -32,8 +30,8 @@ export function StepActions({
             {nextLabel}
           </Button>
         ) : (
-          <Link href={nextHref}>
-            <Button>{nextLabel}</Button>
+          <Link href={nextHref} className={buttonClass()}>
+            {nextLabel}
           </Link>
         ))}
     </div>
