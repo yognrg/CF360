@@ -59,7 +59,7 @@ export function ProductionView() {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[360px_1fr]">
         {/* Preview */}
         <Card className="p-4">
-          <div className="relative flex aspect-[9/16] items-center justify-center overflow-hidden rounded-control bg-gradient-to-b from-text to-text-sub">
+          <div className="relative flex aspect-[9/16] w-full items-center justify-center overflow-hidden rounded-control bg-gradient-to-b from-text to-text-sub">
             {rendering ? (
               <div className="flex flex-col items-center gap-2 text-white/90">
                 <Loader2 className="h-8 w-8 animate-spin" />
