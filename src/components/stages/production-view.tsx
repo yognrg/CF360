@@ -70,14 +70,15 @@ export function ProductionView() {
                 controls
                 playsInline
                 preload="metadata"
+                poster="/media/gold-loan-offer-reel-poster.jpg"
                 className="h-full w-full object-contain"
               >
                 <source src="/media/gold-loan-offer-reel.webm" type="video/webm" />
                 <source src="/media/gold-loan-offer-reel.mp4" type="video/mp4" />
               </video>
             )}
-            <span className="absolute bottom-3 left-3 rounded-pill bg-black/50 px-2 py-1 text-caption text-white">
-              00:15 · Hindi
+            <span className="pointer-events-none absolute left-3 top-3 rounded-pill bg-black/50 px-2 py-1 text-caption text-white">
+              00:10 · Hindi
             </span>
           </div>
           <div className="mt-3 flex items-center gap-2">

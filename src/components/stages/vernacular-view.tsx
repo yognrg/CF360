@@ -157,13 +157,14 @@ export function VernacularView({
           controls
           playsInline
           preload="metadata"
+          poster="/media/gold-loan-offer-reel-poster.jpg"
           className="aspect-[9/16] w-full rounded-control bg-text object-contain"
         >
           <source src="/media/gold-loan-offer-reel.webm" type="video/webm" />
           <source src="/media/gold-loan-offer-reel.mp4" type="video/mp4" />
         </video>
         <p className="mt-3 text-caption text-text-sub">
-          Placeholder reel. The dubbed {previewing?.language} version replaces it when the
+          Showing the Hindi master. The {previewing?.language} version plays here once its
           dub is rendered.
         </p>
       </Drawer>

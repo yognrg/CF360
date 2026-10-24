@@ -80,12 +80,13 @@ export function LeadReviewView({
             controls
             playsInline
             preload="metadata"
+            poster="/media/gold-loan-offer-reel-poster.jpg"
             className="aspect-[9/16] w-full rounded-control bg-text object-contain"
           >
             <source src="/media/gold-loan-offer-reel.webm" type="video/webm" />
             <source src="/media/gold-loan-offer-reel.mp4" type="video/mp4" />
           </video>
-          <p className="mt-3 text-caption text-text-sub">Gold Loan offer reel · 0:15 · placeholder</p>
+          <p className="mt-3 text-caption text-text-sub">Gold Loan offer reel · 0:10 · Hindi master</p>
         </Card>
 
         {/* Review panel */}
